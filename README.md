@@ -1,7 +1,6 @@
 # sshmgr-go
 
-### preview
-
+### PREVIEW
 ![image](https://raw.githubusercontent.com/ifooth/sshmgr-go/master/preview.png)
 
 ### DONE
