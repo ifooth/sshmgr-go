@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"os/user"
 	"path/filepath"
+	"sort"
 	"strconv"
 )
 
@@ -71,14 +72,21 @@ func main() {
 
 			}
 		}
-
 	}
-	index := 1
+
 	label_map := make(map[int]string)
+	var label_sorted []string
 	for k := range label {
-		label_map[index] = k
-		fmt.Printf("[%d] -> %s\n", index, k)
+		label_sorted = append(label_sorted, k)
+	}
+	sort.Sort(sort.StringSlice(label_sorted))
+	var width int
+	width = len(label_sorted) / 10
+	for index, k := range label_sorted {
 		index++
+		label_map[index] = k
+		fmt.Printf(fmt.Sprintf("[%%%dd] -> %%s\n", width), index, k)
+
 	}
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Print("choice label:")
@@ -89,12 +97,13 @@ func main() {
 		break
 	}
 
-	index = 1
 	host_map := make(map[int]string)
-	for _, k := range label[label_map[choice_label]] {
+	host_sored := label[label_map[choice_label]]
+	// sort.Sort(sort.StringSlice(host_sored))
+	for index, k := range host_sored {
+		index++
 		host_map[index] = k
 		fmt.Printf("[%d] -> %s\n", index, k)
-		index++
 	}
 
 	fmt.Print("choice host:")
