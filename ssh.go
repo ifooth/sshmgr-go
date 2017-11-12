@@ -89,18 +89,27 @@ func main() {
 
 	}
 	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Print("choice label:")
+	fmt.Print("choice No. or label:")
 	var choice_label int
+	var host_sorted []string
 	for scanner.Scan() {
-		choice, _ := strconv.ParseUint(scanner.Text(), 10, 0)
-		choice_label = int(choice)
+		choice := scanner.Text()
+		_, ok := label[choice]
+		if ok == true {
+			host_sorted = label[choice]
+		} else {
+			_choice, _ := strconv.ParseUint(choice, 10, 0)
+			choice_label = int(_choice)
+			host_sorted = label[label_map[choice_label]]
+		}
+
 		break
 	}
 
 	host_map := make(map[int]string)
-	host_sored := label[label_map[choice_label]]
+
 	// sort.Sort(sort.StringSlice(host_sored))
-	for index, k := range host_sored {
+	for index, k := range host_sorted {
 		index++
 		host_map[index] = k
 		fmt.Printf("[%d] -> %s\n", index, k)
