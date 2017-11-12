@@ -1,6 +1,8 @@
 # sshmgr-go
 
-### DO
+### preview
+
+### DONE
 - 解析csv文件，主机，label
 - label， host选择
 - 排序，fix width
