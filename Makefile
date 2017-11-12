@@ -1,4 +1,4 @@
-VERSION := 0.0.1
+VERSION := 0.1
 
 ROOTDIR := $(shell pwd)
 PROJECTNAME := sshmgr-go
@@ -9,4 +9,8 @@ build:
 
 .PHONY: linux
 linux:
-	GOOS=linux GOARCH=amd64 go build -o bin/ssh-linux-amd64 ssh.go
+	GOOS=linux GOARCH=amd64 go build -o bin/ssh-linux-amd64-$(VERSION) ssh.go
+
+.PHONY: darwin
+darwin:
+	GOOS=darwin GOARCH=amd64 go build -o bin/ssh-darwin-amd64-$(VERSION) ssh.go
