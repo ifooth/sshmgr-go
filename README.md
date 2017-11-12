@@ -2,6 +2,8 @@
 
 ### preview
 
+![image](https://raw.githubusercontent.com/ifooth/sshmgr-go/master/preview.png)
+
 ### DONE
 - 解析csv文件，主机，label
 - label， host选择
