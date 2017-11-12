@@ -17,22 +17,27 @@ const (
 )
 
 func readData() ([][]string, error) {
-	usr, err := user.Current()
-	if err != nil {
-		return nil, err
-	}
-
-	path := filepath.Join(usr.HomeDir, defaultStor)
+	var path string
+	path, _ = filepath.Abs(defaultStor)
 	csvfile, err := os.Open(path)
 	if err != nil {
-		return nil, err
+		usr, err := user.Current()
+		if err != nil {
+			return nil, err
+		}
+		path = filepath.Join(usr.HomeDir, defaultStor)
+		csvfile, err = os.Open(path)
+		if err != nil {
+			return nil, err
+		}
 	}
+
 	defer csvfile.Close()
 
 	reader := csv.NewReader(csvfile)
 	fields, err := reader.ReadAll()
 
-	return fields, nil
+	return fields, err
 }
 
 func run(cmdName string, arg ...string) {
@@ -42,7 +47,7 @@ func run(cmdName string, arg ...string) {
 	cmd.Stdin = os.Stdin
 	err := cmd.Run()
 	if err != nil {
-		fmt.Printf("Failed to start ssh. %s\n", err.Error())
+		fmt.Printf("Failed to start ssh, %s\n", err.Error())
 		os.Exit(1)
 	}
 }
@@ -50,9 +55,10 @@ func run(cmdName string, arg ...string) {
 func main() {
 	stor, err := readData()
 	if err != nil {
-		fmt.Printf("Failed to start ssh. %s\n", err.Error())
+		fmt.Printf("Failed to read data, %s\n", err.Error())
 		os.Exit(1)
 	}
+
 	label := make(map[string][]string)
 	for _, line := range stor {
 		host := line[0]
